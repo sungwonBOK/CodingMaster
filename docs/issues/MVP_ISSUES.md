@@ -1,94 +1,94 @@
-# CodingMaster MVP Issues
+# CodingMaster MVP 이슈 목록
 
-## [MVP-00] Initialize repository and project tooling
+## [MVP-00] 저장소 초기화와 프로젝트 계획 정리
 
-Acceptance criteria:
-- README, `.gitignore`, `MVP_DESIGN.md`, and the implementation plan are committed.
-- Local issue mirror exists under `docs/issues`.
-- Repository has a GitHub remote and the initial commit is pushed.
+완료 기준:
+- `README.md`, `.gitignore`, `MVP_DESIGN.md`, MVP 구현 계획 문서가 커밋되어 있다.
+- `docs/issues` 아래에 로컬 이슈 목록 문서가 있다.
+- GitHub 원격 저장소가 연결되어 있고 첫 커밋이 푸시되어 있다.
 
-## [MVP-01] Scaffold Next.js app shell
+## [MVP-01] Next.js 앱 기본 구조 만들기
 
-Acceptance criteria:
-- `apps/web` is a Next.js App Router app using TypeScript, Tailwind CSS, and ESLint.
-- Landing page exists.
-- Placeholder routes exist for `/problems`, `/problems/[slug]`, and `/me`.
-- Web build completes successfully.
+완료 기준:
+- `apps/web`이 TypeScript, Tailwind CSS, ESLint를 사용하는 Next.js App Router 앱으로 생성되어 있다.
+- 첫 화면이 있다.
+- `/problems`, `/problems/[slug]`, `/me` 기본 페이지가 있다.
+- 웹 앱 빌드가 성공한다.
 
-## [MVP-02] Add Supabase schema and seed problem format
+## [MVP-02] Supabase 스키마와 문제 시드 형식 추가
 
-Acceptance criteria:
-- Initial migration creates `problems`, `test_cases`, `hints`, `submissions`, `hint_usages`, `give_up_events`, `thinking_step_analyses`, and `review_notes`.
-- RLS allows public reads for problems and public test cases.
-- User-owned records are readable and writable only by their owner.
-- Seed JSON includes at least `sum-of-numbers` and `two-sum-exists`.
+완료 기준:
+- 초기 마이그레이션에 `problems`, `test_cases`, `hints`, `submissions`, `hint_usages`, `give_up_events`, `thinking_step_analyses`, `review_notes` 테이블이 있다.
+- 문제와 공개 테스트 케이스는 로그인 없이 읽을 수 있다.
+- 제출, 힌트 사용, 포기 기록, 분석, 복습 메모는 본인 데이터만 읽고 쓸 수 있다.
+- 시드 JSON에 `sum-of-numbers`, `two-sum-exists` 문제가 최소 포함되어 있다.
 
-## [MVP-03] Implement public problem bank list/detail
+## [MVP-03] 공개 문제은행 목록과 문제 상세 페이지 구현
 
-Acceptance criteria:
-- `/problems` lists seed problem title, difficulty, algorithm tags, and thinking-step tags.
-- `/problems/[slug]` shows statement, input/output description, public examples, and Python textarea.
-- Hints, explanation, and answer code are not visible before the gated flow.
+완료 기준:
+- `/problems`에서 문제 제목, 난이도, 알고리즘 태그, 사고 단계 태그를 볼 수 있다.
+- `/problems/[slug]`에서 문제 설명, 입력/출력 설명, 공개 예제, Python 코드 입력 영역을 볼 수 있다.
+- 힌트, 해설, 정답 코드는 아직 바로 보이지 않는다.
 
-## [MVP-04] Add Supabase Auth login gates
+## [MVP-04] Supabase 로그인과 로그인 필요 처리 추가
 
-Acceptance criteria:
-- Supabase client helpers exist.
-- `.env.example` documents required public Supabase values.
-- Login-gated actions clearly show login-required feedback when the user is signed out.
+완료 기준:
+- Supabase 클라이언트 헬퍼가 있다.
+- `.env.example`에 필요한 Supabase 공개 환경변수가 정리되어 있다.
+- 로그인이 필요한 기능을 비로그인 상태에서 누르면 로그인 필요 안내가 보인다.
 
-## [MVP-05] Add code editor and local draft preservation
+## [MVP-05] 코드 에디터와 로컬 임시 저장 구현
 
-Acceptance criteria:
-- Problem workspace has a Python editor.
-- Drafts persist per problem slug in local storage.
-- Refreshing the page restores the draft.
+완료 기준:
+- 문제 풀이 화면에 Python 코드 에디터가 있다.
+- 작성 중인 코드는 문제별로 브라우저 로컬 저장소에 저장된다.
+- 새로고침 후에도 작성하던 코드가 복원된다.
 
-## [MVP-06] Implement runner boundary and Python example execution
+## [MVP-06] Python 실행기 경계와 예제 실행 구현
 
-Acceptance criteria:
-- `@codingmaster/runner` exposes `RunnerClient`.
-- Local Python runner supports stdin, stdout, stderr, timeout, and output limit handling.
-- Runner tests cover successful execution and timeout.
+완료 기준:
+- `@codingmaster/runner` 패키지가 `RunnerClient` 인터페이스를 제공한다.
+- 로컬 Python 실행기는 stdin, stdout, stderr, 시간 초과, 출력 크기 제한을 처리한다.
+- 실행 성공과 시간 초과 케이스를 테스트한다.
 
-## [MVP-07] Implement submit judging and submission storage
+## [MVP-07] 제출 채점과 제출 기록 저장 구현
 
-Acceptance criteria:
-- Judge service runs all cases in order and stops on first failure.
-- Judge result distinguishes accepted, wrong answer, timeout, and runtime error.
-- Submission records are persisted for logged-in users.
+완료 기준:
+- 채점 서비스는 테스트 케이스를 순서대로 실행하고 첫 실패에서 멈춘다.
+- 채점 결과는 정답, 오답, 시간 초과, 런타임 에러를 구분한다.
+- 로그인한 사용자의 제출 기록이 저장된다.
 
-## [MVP-08] Implement hints and hint usage tracking
+## [MVP-08] 힌트 보기와 힌트 사용 기록 구현
 
-Acceptance criteria:
-- Logged-in users can reveal hints in level order.
-- Hint usage is persisted with problem and user ownership.
-- Signed-out users see login-required feedback.
+완료 기준:
+- 로그인한 사용자는 힌트를 단계별로 열어볼 수 있다.
+- 어떤 사용자가 어떤 문제에서 힌트를 봤는지 저장된다.
+- 비로그인 사용자는 로그인 필요 안내를 본다.
 
-## [MVP-09] Implement give-up flow, explanation, and answer reveal
+## [MVP-09] 포기하기, 해설 보기, 정답 공개 구현
 
-Acceptance criteria:
-- Logged-in users can give up on a problem.
-- Give-up event is persisted.
-- Explanation and answer code are shown only after give-up.
+완료 기준:
+- 로그인한 사용자는 문제 풀이를 포기할 수 있다.
+- 포기 기록이 저장된다.
+- 포기한 뒤에만 해설과 정답 코드가 보인다.
 
-## [MVP-10] Implement evidence-based thinking-step analysis
+## [MVP-10] 근거 기반 사고 단계 분석 구현
 
-Acceptance criteria:
-- Give-up analysis uses viewed hint level, attempt count, failed case type, and problem tags.
-- Analysis returns weak step, confidence, evidence, and explanation.
-- Tests cover at least a large-input complexity case.
+완료 기준:
+- 포기 분석은 본 힌트 단계, 제출 횟수, 실패한 테스트 유형, 문제 태그를 사용한다.
+- 분석 결과는 약한 사고 단계, 신뢰도, 근거, 설명을 포함한다.
+- 큰 입력에서 실패한 경우 시간복잡도 판단 문제로 분석되는 테스트가 있다.
 
-## [MVP-11] Implement simple review note and my page stats
+## [MVP-11] 간단 복습 메모와 내 페이지 통계 구현
 
-Acceptance criteria:
-- Logged-in users can save a short review note per problem.
-- `/me` shows basic solved, attempted, hint, and give-up stats.
-- User-owned review records are protected by RLS.
+완료 기준:
+- 로그인한 사용자는 문제별 복습 메모를 저장할 수 있다.
+- `/me`에서 푼 문제, 시도한 문제, 힌트 사용, 포기 기록의 기본 통계를 볼 수 있다.
+- 복습 메모 데이터는 본인만 읽고 쓸 수 있다.
 
-## [MVP-12] Polish UX, empty states, and build verification
+## [MVP-12] UX 정리, 빈 상태 처리, 최종 검증
 
-Acceptance criteria:
-- Core pages have usable empty, loading, and error states.
-- Mobile layout remains readable.
-- `pnpm test` and `pnpm build` pass before MVP handoff.
+완료 기준:
+- 주요 화면에 빈 상태, 로딩 상태, 오류 상태가 있다.
+- 모바일 화면에서도 읽고 조작하기 쉽다.
+- MVP 인계 전에 `pnpm test`와 `pnpm build`가 성공한다.
