@@ -1,21 +1,43 @@
 import Link from "next/link";
+import { listProblemSummaries } from "@/lib/problems/problem-repository.mjs";
 
-const placeholderProblems = [
-  {
-    slug: "sum-of-numbers",
-    title: "수들의 합",
-    difficulty: "쉬움",
-    tags: ["구현", "배열"],
-  },
-  {
-    slug: "two-sum-exists",
-    title: "두 수의 합 존재 여부",
-    difficulty: "보통",
-    tags: ["집합", "해시"],
-  },
-];
+const difficultyToneClassNames: Record<string, string> = {
+  green: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+  amber: "bg-amber-50 text-amber-700 ring-amber-200",
+  red: "bg-rose-50 text-rose-700 ring-rose-200",
+  slate: "bg-slate-100 text-slate-700 ring-slate-200",
+};
+
+function DifficultyBadge({ difficulty }: { difficulty: { label: string; tone: string } }) {
+  return (
+    <span
+      className={`shrink-0 rounded-md px-2.5 py-1 text-xs font-semibold ring-1 ${
+        difficultyToneClassNames[difficulty.tone] ?? difficultyToneClassNames.slate
+      }`}
+    >
+      {difficulty.label}
+    </span>
+  );
+}
+
+function TagList({ label, tags }: { label: string; tags: Array<{ key: string; label: string }> }) {
+  return (
+    <div className="space-y-2">
+      <p className="text-xs font-semibold uppercase text-slate-500">{label}</p>
+      <div className="flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span className="rounded-md border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-600" key={tag.key}>
+            {tag.label}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function ProblemsPage() {
+  const problems = listProblemSummaries();
+
   return (
     <main className="mx-auto min-h-screen w-full max-w-6xl px-6 py-8 text-slate-950">
       <nav className="mb-10 flex items-center justify-between border-b border-slate-200 pb-5">
@@ -23,41 +45,33 @@ export default function ProblemsPage() {
           CodingMaster
         </Link>
         <Link className="text-sm font-medium text-slate-600 hover:text-slate-950" href="/me">
-          내 기록
+          My Page
         </Link>
       </nav>
 
       <section className="mb-8 space-y-3">
-        <p className="text-sm font-semibold text-blue-700">문제은행</p>
-        <h1 className="text-3xl font-bold tracking-normal">연습할 문제를 선택하세요</h1>
+        <p className="text-sm font-semibold text-blue-700">Problem Bank</p>
+        <h1 className="text-3xl font-bold tracking-normal">Choose a practice problem</h1>
         <p className="max-w-2xl text-base leading-7 text-slate-600">
-          실제 문제 데이터와 채점 흐름은 다음 이슈에서 연결합니다. 지금은 앱
-          구조와 라우팅을 확인하기 위한 기본 화면입니다.
+          Browse the seeded MVP problems. Difficulty and tag labels are resolved through a small metadata layer so they
+          can change without rewriting the page components.
         </p>
       </section>
 
       <div className="grid gap-4 md:grid-cols-2">
-        {placeholderProblems.map((problem) => (
+        {problems.map((problem) => (
           <Link
             className="rounded-md border border-slate-200 bg-white p-5 shadow-sm hover:border-slate-400"
             href={`/problems/${problem.slug}`}
             key={problem.slug}
           >
-            <div className="mb-4 flex items-center justify-between gap-3">
+            <div className="mb-5 flex items-start justify-between gap-3">
               <h2 className="text-lg font-semibold">{problem.title}</h2>
-              <span className="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
-                {problem.difficulty}
-              </span>
+              <DifficultyBadge difficulty={problem.difficulty} />
             </div>
-            <div className="flex flex-wrap gap-2">
-              {problem.tags.map((tag) => (
-                <span
-                  className="rounded-md border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-600"
-                  key={tag}
-                >
-                  {tag}
-                </span>
-              ))}
+            <div className="space-y-4">
+              <TagList label="Algorithm" tags={problem.algorithmTags} />
+              <TagList label="Thinking Step" tags={problem.thinkingStepTags} />
             </div>
           </Link>
         ))}
