@@ -1,0 +1,100 @@
+[
+  {
+    "slug": "sum-of-numbers",
+    "title": "Sum of Numbers",
+    "difficulty": "easy",
+    "statement": "Given N integers, print their sum.",
+    "inputDescription": "The first line contains N. The second line contains N space-separated integers.",
+    "outputDescription": "Print one integer, the sum of all given numbers.",
+    "constraintsText": "1 <= N <= 100000, -1000000 <= each number <= 1000000.",
+    "algorithmTags": ["implementation", "array"],
+    "thinkingStepTags": ["input_parsing", "accumulation"],
+    "failurePatternTags": ["off_by_one", "empty_accumulator"],
+    "testCases": [
+      {
+        "input": "5\n1 2 3 4 5\n",
+        "expectedOutput": "15\n",
+        "isPublic": true,
+        "caseType": "sample"
+      },
+      {
+        "input": "1\n-7\n",
+        "expectedOutput": "-7\n",
+        "isPublic": true,
+        "caseType": "single_value"
+      },
+      {
+        "input": "6\n1000000 -1000000 3 4 -5 6\n",
+        "expectedOutput": "8\n",
+        "isPublic": false,
+        "caseType": "mixed_signs"
+      }
+    ],
+    "hints": [
+      {
+        "level": 1,
+        "content": "Read N first, then read the list of numbers."
+      },
+      {
+        "level": 2,
+        "content": "Use a running total or the built-in sum function."
+      }
+    ],
+    "explanation": "After parsing the integers, add every element exactly once. This is O(N) time and O(N) memory if the list is stored.",
+    "answerCode": "n = int(input())\nnumbers = list(map(int, input().split()))\nprint(sum(numbers))\n"
+  },
+  {
+    "slug": "two-sum-exists",
+    "title": "Two Sum Exists",
+    "difficulty": "medium",
+    "statement": "Given N integers and a target K, print YES if two different positions have values whose sum is K. Otherwise print NO.",
+    "inputDescription": "The first line contains N and K. The second line contains N space-separated integers.",
+    "outputDescription": "Print YES if a valid pair exists, otherwise print NO.",
+    "constraintsText": "2 <= N <= 200000, -1000000000 <= each number <= 1000000000, -2000000000 <= K <= 2000000000.",
+    "algorithmTags": ["set", "hash", "two-sum"],
+    "thinkingStepTags": ["complexity_judgement", "data_structure_selection"],
+    "failurePatternTags": ["quadratic_scan", "duplicate_handling"],
+    "testCases": [
+      {
+        "input": "5 9\n2 7 11 15 1\n",
+        "expectedOutput": "YES\n",
+        "isPublic": true,
+        "caseType": "sample"
+      },
+      {
+        "input": "4 10\n1 2 3 4\n",
+        "expectedOutput": "NO\n",
+        "isPublic": true,
+        "caseType": "no_pair"
+      },
+      {
+        "input": "5 8\n4 1 4 9 12\n",
+        "expectedOutput": "YES\n",
+        "isPublic": false,
+        "caseType": "duplicate_data"
+      },
+      {
+        "input": "10 199999\n1 3 5 7 9 11 13 15 17 199982\n",
+        "expectedOutput": "YES\n",
+        "isPublic": false,
+        "caseType": "large_input"
+      }
+    ],
+    "hints": [
+      {
+        "level": 1,
+        "content": "Checking every pair is too slow for the largest input."
+      },
+      {
+        "level": 2,
+        "content": "While scanning values, remember numbers you have already seen."
+      },
+      {
+        "level": 3,
+        "content": "For each value x, check whether K - x is already in a set."
+      }
+    ],
+    "explanation": "Use a set of previously seen numbers. For each x, if K - x is already present, a valid pair exists. Insert x after the check so the same position is not reused.",
+    "answerCode": "n, target = map(int, input().split())\nnumbers = list(map(int, input().split()))\nseen = set()\nfor value in numbers:\n    if target - value in seen:\n        print('YES')\n        break\n    seen.add(value)\nelse:\n    print('NO')\n"
+  }
+]
