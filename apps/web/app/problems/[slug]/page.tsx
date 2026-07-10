@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProblemWorkspace } from "@/components/problems/problem-workspace";
 import { getProblemDetail, listProblemSummaries } from "@/lib/problems/problem-repository.mjs";
 
 type ProblemPageProps = {
@@ -108,24 +109,10 @@ export default async function ProblemDetailPage({ params }: ProblemPageProps) {
           </section>
         </section>
 
-        <aside className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
-          <label className="mb-3 block text-sm font-semibold" htmlFor="code">
-            Python Code
-          </label>
-          <textarea
-            className="h-80 w-full resize-none rounded-md border border-slate-300 bg-slate-50 p-3 font-mono text-sm leading-6 outline-none focus:border-blue-500"
-            defaultValue={problem.editor.starterCode}
-            id="code"
-          />
-          <div className="mt-4 flex gap-2">
-            <button className="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-800">
-              Run
-            </button>
-            <button className="rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white">
-              Submit
-            </button>
-          </div>
-        </aside>
+        <ProblemWorkspace
+          problemSlug={problem.slug}
+          starterCode={problem.editor.starterCode}
+        />
       </div>
     </main>
   );
