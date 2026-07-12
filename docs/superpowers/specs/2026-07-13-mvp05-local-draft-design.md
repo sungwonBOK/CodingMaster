@@ -26,7 +26,7 @@ Automatic saving begins only after the initial restoration attempt finishes. Thi
 
 ## Failure Handling
 
-Local storage access is optional browser behavior. If reading or writing throws, the editor continues to work for the current page session and no error notice interrupts the user. Existing login-required notices remain independent and continue to work.
+Local storage access is optional browser behavior. If reading or writing throws, the editor continues to work for the current page session and no error notice interrupts the user. A failed read leaves automatic persistence disabled for that restoration cycle, so the editor remains available in memory without overwriting a temporarily unreadable saved draft. Existing login-required notices remain independent and continue to work.
 
 ## Implementation Boundary
 

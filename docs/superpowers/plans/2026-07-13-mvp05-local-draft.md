@@ -282,6 +282,39 @@ it("keeps editing available when reading local storage fails", async () => {
   }
 });
 
+it("does not overwrite a saved draft when reading local storage fails", async () => {
+  const { ProblemWorkspace, fireEvent, render, screen } =
+    await loadWorkspaceTestTools();
+  const storageKey = "codingmaster:draft:sum-of-numbers";
+  window.localStorage.setItem(storageKey, "print('saved')");
+
+  const storagePrototype = Object.getPrototypeOf(window.localStorage) as Storage;
+  const originalGetItem = storagePrototype.getItem;
+  storagePrototype.getItem = () => {
+    throw new Error("storage unavailable");
+  };
+
+  try {
+    render(
+      <ProblemWorkspace
+        problemSlug="sum-of-numbers"
+        starterCode="# starter code"
+      />,
+    );
+    fireEvent.change(screen.getByLabelText("Python Code"), {
+      target: { value: "print('still editable')" },
+    });
+    assert.equal(
+      (screen.getByLabelText("Python Code") as HTMLTextAreaElement).value,
+      "print('still editable')",
+    );
+  } finally {
+    storagePrototype.getItem = originalGetItem;
+  }
+
+  assert.equal(window.localStorage.getItem(storageKey), "print('saved')");
+});
+
 it("keeps editing available when writing local storage fails", async () => {
   const { ProblemWorkspace, fireEvent, render, screen } =
     await loadWorkspaceTestTools();
@@ -325,12 +358,12 @@ useEffect(() => {
   try {
     const savedDraft = window.localStorage.getItem(storageKey);
     if (savedDraft !== null) restoredCode = savedDraft;
+    setRestoredStorageKey(storageKey);
   } catch {
-    // Keep the editor usable with starter code when storage is unavailable.
+    // Keep editing usable without overwriting a temporarily unreadable draft.
   }
 
   setCode(restoredCode);
-  setRestoredStorageKey(storageKey);
 }, [starterCode, storageKey]);
 ```
 
@@ -348,7 +381,7 @@ useEffect(() => {
 }, [code, restoredStorageKey, storageKey]);
 ```
 
-Run the focused test command again. Expected: all ten component tests pass with no uncaught errors.
+Run the focused test command again. Expected: all eleven component tests pass with no uncaught errors. A failed read leaves persistence disabled for that restoration cycle, so in-memory edits do not overwrite the existing unreadable draft.
 
 - [ ] **Step 11: Refactor only if needed and run full verification**
 
@@ -363,7 +396,7 @@ git diff --check
 git status --short --branch
 ```
 
-Expected: validator, 19 total web tests, ESLint, and production build pass; only the two MVP-05 implementation files and the untracked root `AGENTS.md` differ from the plan commit.
+Expected: validator, 20 total web tests, ESLint, and production build pass; only the two MVP-05 implementation files and the untracked root `AGENTS.md` differ from the plan commit.
 
 - [ ] **Step 12: Commit the implementation**
 
