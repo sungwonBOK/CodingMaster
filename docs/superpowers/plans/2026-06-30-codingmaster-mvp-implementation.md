@@ -37,7 +37,7 @@ Excluded:
 
 ## Repository Layout
 
-Create this structure under `C:\Users\sungw\Desktop\CodingMaster`.
+Create this structure under `D:\Projects\CodingMaster`.
 
 ```text
 CodingMaster/
@@ -104,7 +104,7 @@ Create these issues once a GitHub repository exists.
 Run:
 
 ```powershell
-git -C C:\Users\sungw\Desktop\CodingMaster status -sb
+git -C D:\Projects\CodingMaster status -sb
 ```
 
 Expected if not initialized:
@@ -116,7 +116,7 @@ fatal: not a git repository (or any of the parent directories): .git
 Then run:
 
 ```powershell
-git -C C:\Users\sungw\Desktop\CodingMaster init
+git -C D:\Projects\CodingMaster init
 ```
 
 Expected:
@@ -127,7 +127,7 @@ Initialized empty Git repository
 
 - [ ] **Step 0.2: Create `.gitignore`**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\.gitignore`:
+Create `D:\Projects\CodingMaster\.gitignore`:
 
 ```gitignore
 node_modules
@@ -147,7 +147,7 @@ __pycache__
 
 - [ ] **Step 0.3: Create README**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\README.md`:
+Create `D:\Projects\CodingMaster\README.md`:
 
 ```markdown
 # CodingMaster
@@ -168,15 +168,15 @@ See `MVP_DESIGN.md` and `docs/superpowers/plans/2026-06-30-codingmaster-mvp-impl
 
 - [ ] **Step 0.4: Create local issue backlog mirror**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\docs\issues\MVP_ISSUES.md` with the same 13 issues listed in the `GitHub Issue Backlog` section. Each issue should include acceptance criteria from its task section below.
+Create `D:\Projects\CodingMaster\docs\issues\MVP_ISSUES.md` with the same 13 issues listed in the `GitHub Issue Backlog` section. Each issue should include acceptance criteria from its task section below.
 
 - [ ] **Step 0.5: Commit planning artifacts**
 
 Run:
 
 ```powershell
-git -C C:\Users\sungw\Desktop\CodingMaster add README.md .gitignore docs\issues\MVP_ISSUES.md MVP_DESIGN.md docs\superpowers\plans\2026-06-30-codingmaster-mvp-implementation.md
-git -C C:\Users\sungw\Desktop\CodingMaster commit -m "docs: add MVP design and implementation plan"
+git -C D:\Projects\CodingMaster add README.md .gitignore docs\issues\MVP_ISSUES.md MVP_DESIGN.md docs\superpowers\plans\2026-06-30-codingmaster-mvp-implementation.md
+git -C D:\Projects\CodingMaster commit -m "docs: add MVP design and implementation plan"
 ```
 
 Expected:
@@ -197,7 +197,7 @@ Expected:
 
 - [ ] **Step 1.1: Create root package manifest**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\package.json`:
+Create `D:\Projects\CodingMaster\package.json`:
 
 ```json
 {
@@ -218,7 +218,7 @@ Create `C:\Users\sungw\Desktop\CodingMaster\package.json`:
 
 - [ ] **Step 1.2: Create pnpm workspace**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\pnpm-workspace.yaml`:
+Create `D:\Projects\CodingMaster\pnpm-workspace.yaml`:
 
 ```yaml
 packages:
@@ -228,7 +228,7 @@ packages:
 
 - [ ] **Step 1.3: Create shared TypeScript config**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\tsconfig.base.json`:
+Create `D:\Projects\CodingMaster\tsconfig.base.json`:
 
 ```json
 {
@@ -253,7 +253,7 @@ Create `C:\Users\sungw\Desktop\CodingMaster\tsconfig.base.json`:
 Run:
 
 ```powershell
-node -e "JSON.parse(require('fs').readFileSync('C:/Users/sungw/Desktop/CodingMaster/package.json','utf8')); JSON.parse(require('fs').readFileSync('C:/Users/sungw/Desktop/CodingMaster/tsconfig.base.json','utf8')); console.log('ok')"
+node -e "JSON.parse(require('fs').readFileSync('D:/Projects/CodingMaster/package.json','utf8')); JSON.parse(require('fs').readFileSync('D:/Projects/CodingMaster/tsconfig.base.json','utf8')); console.log('ok')"
 ```
 
 Expected:
@@ -277,7 +277,7 @@ ok
 
 - [ ] **Step 2.1: Create runner package manifest**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\packages\runner\package.json`:
+Create `D:\Projects\CodingMaster\packages\runner\package.json`:
 
 ```json
 {
@@ -299,7 +299,7 @@ Create `C:\Users\sungw\Desktop\CodingMaster\packages\runner\package.json`:
 
 - [ ] **Step 2.2: Create runner types**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\packages\runner\src\types.ts`:
+Create `D:\Projects\CodingMaster\packages\runner\src\types.ts`:
 
 ```ts
 export type RunnerStatus = "completed" | "timeout" | "runtime_error";
@@ -325,7 +325,7 @@ export interface RunnerClient {
 
 - [ ] **Step 2.3: Write runner tests before implementation**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\packages\runner\tests\local-python-runner.test.ts`:
+Create `D:\Projects\CodingMaster\packages\runner\tests\local-python-runner.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -363,7 +363,7 @@ describe("LocalPythonRunner", () => {
 
 - [ ] **Step 2.4: Implement local runner**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\packages\runner\src\local-python-runner.ts`:
+Create `D:\Projects\CodingMaster\packages\runner\src\local-python-runner.ts`:
 
 ```ts
 import { spawn } from "node:child_process";
@@ -426,7 +426,7 @@ export class LocalPythonRunner implements RunnerClient {
 
 - [ ] **Step 2.5: Export runner API**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\packages\runner\src\index.ts`:
+Create `D:\Projects\CodingMaster\packages\runner\src\index.ts`:
 
 ```ts
 export type { ExecutePythonRequest, ExecutePythonResult, RunnerClient, RunnerStatus } from "./types";
@@ -438,7 +438,7 @@ export { LocalPythonRunner } from "./local-python-runner";
 Run:
 
 ```powershell
-pnpm --dir C:\Users\sungw\Desktop\CodingMaster --filter @codingmaster/runner test
+pnpm --dir D:\Projects\CodingMaster --filter @codingmaster/runner test
 ```
 
 Expected:
@@ -458,7 +458,7 @@ Expected:
 
 - [ ] **Step 3.1: Create initial schema SQL**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\supabase\migrations\0001_initial_schema.sql`.
+Create `D:\Projects\CodingMaster\supabase\migrations\0001_initial_schema.sql`.
 
 Required tables:
 
@@ -482,7 +482,7 @@ Required RLS rules:
 
 - [ ] **Step 3.2: Create sample seed JSON**
 
-Create `C:\Users\sungw\Desktop\CodingMaster\supabase\seed\problems.json` with at least two problems:
+Create `D:\Projects\CodingMaster\supabase\seed\problems.json` with at least two problems:
 
 - `sum-of-numbers`: easy implementation/array problem.
 - `two-sum-exists`: medium set/hash problem with large-input and duplicate-data test case tags.
@@ -511,7 +511,7 @@ answerCode
 Run:
 
 ```powershell
-node -e "JSON.parse(require('fs').readFileSync('C:/Users/sungw/Desktop/CodingMaster/supabase/seed/problems.json','utf8')); console.log('seed ok')"
+node -e "JSON.parse(require('fs').readFileSync('D:/Projects/CodingMaster/supabase/seed/problems.json','utf8')); console.log('seed ok')"
 ```
 
 Expected:
@@ -537,7 +537,7 @@ seed ok
 Run:
 
 ```powershell
-pnpm create next-app@latest C:\Users\sungw\Desktop\CodingMaster\apps\web --ts --tailwind --eslint --app --src-dir false --import-alias "@/*"
+pnpm create next-app@latest D:\Projects\CodingMaster\apps\web --ts --tailwind --eslint --app --src-dir false --import-alias "@/*"
 ```
 
 Expected:
@@ -591,7 +591,7 @@ export default function HomePage() {
 Run:
 
 ```powershell
-pnpm --dir C:\Users\sungw\Desktop\CodingMaster --filter @codingmaster/web build
+pnpm --dir D:\Projects\CodingMaster --filter @codingmaster/web build
 ```
 
 Expected:
@@ -691,7 +691,7 @@ Acceptance criteria:
 Run:
 
 ```powershell
-pnpm --dir C:\Users\sungw\Desktop\CodingMaster --filter @codingmaster/web build
+pnpm --dir D:\Projects\CodingMaster --filter @codingmaster/web build
 ```
 
 Expected:
@@ -917,7 +917,7 @@ describe("analyzeGiveUp", () => {
 Run:
 
 ```powershell
-pnpm --dir C:\Users\sungw\Desktop\CodingMaster --filter @codingmaster/web add @supabase/supabase-js @supabase/ssr
+pnpm --dir D:\Projects\CodingMaster --filter @codingmaster/web add @supabase/supabase-js @supabase/ssr
 ```
 
 Expected:
@@ -1002,7 +1002,7 @@ export function ProblemWorkspace({ problemSlug }: ProblemWorkspaceProps) {
 Run:
 
 ```powershell
-pnpm --dir C:\Users\sungw\Desktop\CodingMaster dev
+pnpm --dir D:\Projects\CodingMaster dev
 ```
 
 Open:
@@ -1041,9 +1041,9 @@ Ask the user for an existing GitHub repository URL after local planning/scaffold
 After the user provides a repository URL, run:
 
 ```powershell
-git -C C:\Users\sungw\Desktop\CodingMaster remote add origin <REPOSITORY_URL>
-git -C C:\Users\sungw\Desktop\CodingMaster branch -M main
-git -C C:\Users\sungw\Desktop\CodingMaster push -u origin main
+git -C D:\Projects\CodingMaster remote add origin <REPOSITORY_URL>
+git -C D:\Projects\CodingMaster branch -M main
+git -C D:\Projects\CodingMaster push -u origin main
 ```
 
 Expected:
@@ -1076,9 +1076,9 @@ Apply `mvp` to every issue. Apply one area label where appropriate.
 Run these after the initial project files exist:
 
 ```powershell
-pnpm --dir C:\Users\sungw\Desktop\CodingMaster test
-pnpm --dir C:\Users\sungw\Desktop\CodingMaster build
-git -C C:\Users\sungw\Desktop\CodingMaster status -sb
+pnpm --dir D:\Projects\CodingMaster test
+pnpm --dir D:\Projects\CodingMaster build
+git -C D:\Projects\CodingMaster status -sb
 ```
 
 Expected:

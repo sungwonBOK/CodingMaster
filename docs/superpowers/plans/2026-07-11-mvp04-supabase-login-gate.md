@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- Work only in `C:\Users\sungw\Desktop\CodingMaster`.
+- Work only in `D:\Projects\CodingMaster`.
 - Keep `app/problems/[slug]/page.tsx` server-rendered.
 - Do not add actual sign-in screens, OAuth providers, callback handling, server session cookies, or route protection.
 - Do not commit live Supabase credentials or service-role secrets.
@@ -548,7 +548,7 @@ Expected: the feature branch contains the design and feature commits, and only t
 
 The controller performs these steps only after the broad whole-branch review is approved:
 
-1. Confirm the untracked implementation-plan copy in `C:\Users\sungw\Desktop\CodingMaster` is byte-identical to the committed feature-branch file, then remove only that duplicate untracked copy.
+1. Confirm the untracked implementation-plan copy in `D:\Projects\CodingMaster` is byte-identical to the committed feature-branch file, then remove only that duplicate untracked copy.
 2. Fast-forward `main` to `codex/mvp04-supabase-login-gate` while preserving the untracked root `AGENTS.md`.
 3. Push `main` and close issue #5:
 
