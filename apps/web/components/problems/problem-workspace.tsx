@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getLoginRequiredNotice,
   type LoginRequiredNotice,
@@ -26,9 +26,40 @@ export function ProblemWorkspace({
   problemSlug,
   starterCode,
 }: ProblemWorkspaceProps) {
+  const storageKey = `codingmaster:draft:${problemSlug}`;
   const [code, setCode] = useState(starterCode);
+  const [restoredStorageKey, setRestoredStorageKey] = useState<string | null>(
+    null,
+  );
   const [notice, setNotice] = useState<LoginRequiredNotice | null>(null);
   const textareaId = `code-${problemSlug}`;
+
+  /* eslint-disable react-hooks/set-state-in-effect -- Browser-only drafts must restore after hydration before writes are enabled. */
+  useEffect(() => {
+    setRestoredStorageKey(null);
+
+    let restoredCode = starterCode;
+    try {
+      const savedDraft = window.localStorage.getItem(storageKey);
+      if (savedDraft !== null) restoredCode = savedDraft;
+    } catch {
+      // Keep the editor usable with starter code when storage is unavailable.
+    }
+
+    setCode(restoredCode);
+    setRestoredStorageKey(storageKey);
+  }, [starterCode, storageKey]);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  useEffect(() => {
+    if (restoredStorageKey !== storageKey) return;
+
+    try {
+      window.localStorage.setItem(storageKey, code);
+    } catch {
+      // Keep in-memory editing available when persistence is unavailable.
+    }
+  }, [code, restoredStorageKey, storageKey]);
 
   return (
     <aside className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
