@@ -167,6 +167,39 @@ describe("ProblemWorkspace", () => {
     }
   });
 
+  it("does not overwrite a saved draft when reading local storage fails", async () => {
+    const { ProblemWorkspace, fireEvent, render, screen } =
+      await loadWorkspaceTestTools();
+    const storageKey = "codingmaster:draft:sum-of-numbers";
+    window.localStorage.setItem(storageKey, "print('saved')");
+
+    const storagePrototype = Object.getPrototypeOf(window.localStorage) as Storage;
+    const originalGetItem = storagePrototype.getItem;
+    storagePrototype.getItem = () => {
+      throw new Error("storage unavailable");
+    };
+
+    try {
+      render(
+        <ProblemWorkspace
+          problemSlug="sum-of-numbers"
+          starterCode="# starter code"
+        />,
+      );
+      fireEvent.change(screen.getByLabelText("Python Code"), {
+        target: { value: "print('still editable')" },
+      });
+      assert.equal(
+        (screen.getByLabelText("Python Code") as HTMLTextAreaElement).value,
+        "print('still editable')",
+      );
+    } finally {
+      storagePrototype.getItem = originalGetItem;
+    }
+
+    assert.equal(window.localStorage.getItem(storageKey), "print('saved')");
+  });
+
   it("keeps editing available when writing local storage fails", async () => {
     const { ProblemWorkspace, fireEvent, render, screen } =
       await loadWorkspaceTestTools();

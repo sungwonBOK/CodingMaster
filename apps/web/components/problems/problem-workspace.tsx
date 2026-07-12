@@ -42,12 +42,12 @@ export function ProblemWorkspace({
     try {
       const savedDraft = window.localStorage.getItem(storageKey);
       if (savedDraft !== null) restoredCode = savedDraft;
+      setRestoredStorageKey(storageKey);
     } catch {
-      // Keep the editor usable with starter code when storage is unavailable.
+      // Keep editing usable without overwriting a temporarily unreadable draft.
     }
 
     setCode(restoredCode);
-    setRestoredStorageKey(storageKey);
   }, [starterCode, storageKey]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
